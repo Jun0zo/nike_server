@@ -9,11 +9,15 @@ app.use(cors())
 app.get('/', (req, res) => {
     const wish_list = req.query['wish'].split(',');
     const refurl = req.query['refurl'];
+    const prodid = req.query['prodid'];
+    const customYN = req.query['customYN'];
+
+    var today = new Date();
 
     console.log(wish_list)
     const options = {
         method:'get',
-        url: 'https://www.nike.com/kr/ko_kr/productSkuInventory?productId=10000030700&customYN=false&_=1592107473094',
+        url: 'https://www.nike.com/kr/ko_kr/productSkuInventory?productId=' + prodid + '&customYN=' + false + '&_=' + today.getTime(),
         headers:{
             "referer": refurl,
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36",
@@ -21,6 +25,7 @@ app.get('/', (req, res) => {
             "Host": "www.nike.com"
         }
     }
+    console.log('https://www.nike.com/kr/ko_kr/productSkuInventory?productId=' + prodid + '&customYN=' + false + '&_=' + today.getTime());
     var is_exist = false
     axios(options).then((response) => {
         var shoes_datas = response.data.skuPricing;
